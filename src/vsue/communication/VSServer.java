@@ -1,6 +1,10 @@
 package vsue.communication;
 
+import vsue.Logger;
+import vsue.Utility;
+
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -8,13 +12,25 @@ import java.net.Socket;
  */
 public class VSServer {
 
-    private static final String ADDRESS = "127.0.0.1";
-    private static final int PORT = 12345;
+    private static final int PORT = 11111;
 
     public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(PORT);
 
-         VSConnection connection = new VSObjectConnection(ADDRESS, PORT);
-         byte[] bytesOfObject = connection.receiveChunk();
-         connection.sendChunk(bytesOfObject);
+        Logger.log("Server running.");
+
+        while(true) {
+            Socket socket = serverSocket.accept();
+            System.out.println("Socket Accepted: " + socket.getInetAddress().getHostAddress()  + ":" + socket.getPort());
+            VSConnection connection = new VSObjectConnection(socket);
+            handleReceive(connection);
+        }
+	}
+
+	private static void handleReceive(VSConnection connection) throws IOException {
+        //echo
+        byte[] bytesOfObject = connection.receiveChunk();
+		Utility.printByteArrayInHex(bytesOfObject);
+        connection.sendChunk(bytesOfObject);
     }
 }

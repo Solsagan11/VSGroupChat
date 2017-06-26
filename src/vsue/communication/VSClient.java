@@ -10,27 +10,27 @@ import java.io.IOException;
 public class VSClient {
 
     private static final String ADDRESS = "127.0.0.1";
-    private static final int PORT = 12345;
+    private static final int PORT = 11111;
 
     public static void main(String[] args) throws IOException {
-        VSConnection connection = new VSObjectConnection(ADDRESS, PORT);
+        VSObjectConnection connection = new VSObjectConnection(ADDRESS, PORT);
         int i = 20;
         String string = "zwanzig";
-        String[] stringarray = { "zwanzig", "einundzwanzig", "dreiundzwanzig"};
+        String[] stringArray = { "zwanzig", "einundzwanzig", "dreiundzwanzig"};
 
-        byte[] bytesOfObject = Utility.convertToBytes(i);
-        connection.sendChunk(bytesOfObject);
+        //byte[] bytesOfObject = Utility.convertToBytes(i);
+        connection.sendObject(i);
         byte[] returnedBytes = connection.receiveChunk();
-        Utility.printByteArray(returnedBytes);
+        Utility.printByteArrayInHex(returnedBytes);
 
-        bytesOfObject = Utility.convertToBytes(string);
-        connection.sendChunk(bytesOfObject);
+        //bytesOfObject = Utility.convertToBytes(string);
+        connection.sendObject(string);
         returnedBytes = connection.receiveChunk();
-        Utility.printByteArray(returnedBytes);
+        Utility.printByteArrayInHex(returnedBytes);
 
-        bytesOfObject = Utility.convertToBytes(stringarray);
-        connection.sendChunk(bytesOfObject);
+        //bytesOfObject = Utility.convertToBytes(stringarray);
+        connection.sendObject(stringArray);
         returnedBytes = connection.receiveChunk();
-        Utility.printByteArray(returnedBytes);
+        Utility.printByteArrayInHex(returnedBytes);
     }
 }

@@ -35,10 +35,10 @@ public class Utility {
         }
     }
 
-    public static void printByteArray(byte[] bytes) {
-        for(Byte b : bytes) {
-            System.out.println(b);
-        }
-        System.out.println(":" + bytes.length);
+    public static void printByteArrayInHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder(bytes.length * 2);
+        for(byte b: bytes)
+            sb.append(String.format("%02x", b));
+        System.out.println(sb.toString() + ":" + bytes.length);
     }
 }
