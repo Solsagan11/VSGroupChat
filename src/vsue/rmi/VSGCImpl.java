@@ -1,4 +1,7 @@
-import java.rmi.Remote;
+package vsue.rmi;
+
+import vsue.Logger;
+
 import java.rmi.RemoteException;
 import java.util.*;
 

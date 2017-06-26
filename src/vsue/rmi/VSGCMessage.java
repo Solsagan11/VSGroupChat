@@ -1,3 +1,5 @@
+package vsue.rmi;
+
 import java.io.Serializable;
 
 /**

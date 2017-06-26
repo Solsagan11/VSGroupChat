@@ -1,8 +1,8 @@
+package vsue.rmi;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Solsagan on 21.06.2017.

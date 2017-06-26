@@ -1,9 +1,11 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
+package vsue.rmi;
+
+import vsue.Logger;
+import vsue.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.Buffer;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -22,7 +24,7 @@ public class VSGCRMIClient implements VSGCListener {
     public static void main(String[] args) throws IOException, NotBoundException {
 
         Registry registry = LocateRegistry.getRegistry("localhost", 1234);
-        groupChat = (VSGroupChat) registry.lookup("VSGroupChat");
+        groupChat = (VSGroupChat) registry.lookup("vsue.rmi.VSGroupChat");
 
         VSGCListener exportedClient = (VSGCListener) UnicastRemoteObject.exportObject(new VSGCRMIClient(), 0);
 

@@ -1,3 +1,7 @@
+package vsue.rmi;
+
+import vsue.Logger;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -12,7 +16,7 @@ public class VSGCRMIServer {
         VSGroupChat groupChat = (VSGroupChat) UnicastRemoteObject.exportObject(groupChatImpl, 0);
 
         Registry registry = LocateRegistry.createRegistry(1234);
-        registry.bind("VSGroupChat", groupChat);
+        registry.bind("vsue.rmi.VSGroupChat", groupChat);
 
         Logger.log("Server running");
     }
