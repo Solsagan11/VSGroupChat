@@ -1,5 +1,6 @@
 package vsue.communication;
 
+import vsue.Logger;
 import vsue.Utility;
 
 import java.io.*;
@@ -25,6 +26,8 @@ public class VSObjectConnection extends VSConnection {
 			objectOutputStream.writeObject(object);
 			byte[] bytes = outputStream.toByteArray();
 			Utility.printByteArrayInHex(bytes);
+			Logger.log("Sent length is " + bytes.length);
+			sendChunk(Utility.intToByteArray(bytes.length));
 			sendChunk(bytes);
 		}
 		finally {

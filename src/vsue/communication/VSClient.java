@@ -1,5 +1,6 @@
 package vsue.communication;
 
+import vsue.Logger;
 import vsue.Utility;
 
 import java.io.IOException;
@@ -20,16 +21,20 @@ public class VSClient {
 
         //byte[] bytesOfObject = Utility.convertToBytes(i);
         connection.sendObject(i);
+        Logger.log("int sent.");
         byte[] returnedBytes = connection.receiveChunk();
+        Logger.log("int received.");
         Utility.printByteArrayInHex(returnedBytes);
 
         //bytesOfObject = Utility.convertToBytes(string);
         connection.sendObject(string);
+        Logger.log("string sent.");
         returnedBytes = connection.receiveChunk();
         Utility.printByteArrayInHex(returnedBytes);
 
         //bytesOfObject = Utility.convertToBytes(stringarray);
         connection.sendObject(stringArray);
+        Logger.log("stringarray sent.");
         returnedBytes = connection.receiveChunk();
         Utility.printByteArrayInHex(returnedBytes);
     }

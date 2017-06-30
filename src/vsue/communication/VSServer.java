@@ -29,7 +29,9 @@ public class VSServer {
 
 	private static void handleReceive(VSConnection connection) throws IOException {
         //echo
+        Logger.log("Handling receive.");
         byte[] bytesOfObject = connection.receiveChunk();
+
 		Utility.printByteArrayInHex(bytesOfObject);
         connection.sendChunk(bytesOfObject);
     }

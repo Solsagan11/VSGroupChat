@@ -20,6 +20,10 @@ public class Utility {
         return bb.array();
     }
 
+    public static int byteArrayToInt(byte[] bytes) {
+        return ByteBuffer.wrap(bytes).getInt();
+    }
+
     public static byte[] convertToBytes(Object object) throws IOException {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutput out = new ObjectOutputStream(bos)) {

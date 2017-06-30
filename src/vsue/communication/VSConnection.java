@@ -37,21 +37,36 @@ public class VSConnection {
     }
 
     public synchronized byte[] receiveChunk() throws IOException{
-        InputStream in = socket.getInputStream();
-        byte[] byteLength = new byte[4];
-        in.read(byteLength, 0, 4);
-        byte[] returningBytes = this.readChunk(in, byteLength);
+        byte[] returningBytes = null;
+        try {
+            InputStream in = socket.getInputStream();
+
+            byte[] byteLength = this.readChunk(in, 0, 4);
+            Utility.printByteArrayInHex(byteLength);
+            int intLength = Utility.byteArrayToInt(byteLength);
+            Logger.log("Read length: " + intLength);
+            returningBytes = this.readChunk(in, 4, intLength);
+            return returningBytes;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return returningBytes;
     }
 
-    private byte[] readChunk(InputStream in, byte[] byteLength) {
+    private byte[] readChunk(InputStream in, int off, int length) throws IOException {
 
-        int readItem = 0;
-        byte[] bytes = new byte[byteLength];
-        int counter = 0;
+        int actualRead = 0;
+        byte[] readBytes = new byte[length];
+
         do {
-            in.read(bytes, counter);
-        } while(readItem > 0)
-
+            actualRead = in.read(readBytes, off, length-off);
+            if (actualRead == -1) {
+                Logger.log("InputStream closed.");
+            }
+            off += actualRead;
+            Logger.log("ENDLOSSCHLEIFE!!");
+        } while(off < length);
+        Logger.log("Finished reading chunkpart");
+        return readBytes;
     }
 }
