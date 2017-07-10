@@ -19,15 +19,11 @@ public class VSObjectConnection extends VSConnection {
     }
 
     public void sendObject(Serializable object) throws IOException {
-
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
-		try {
+
+		try(ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
 			objectOutputStream.writeObject(object);
 			byte[] bytes = outputStream.toByteArray();
-			Utility.printByteArrayInHex(bytes);
-			Logger.log("Sent length is " + bytes.length);
-			sendChunk(Utility.intToByteArray(bytes.length));
 			sendChunk(bytes);
 		}
 		finally {
@@ -36,13 +32,14 @@ public class VSObjectConnection extends VSConnection {
     }
 
     public Serializable receiveObject() throws IOException, ClassNotFoundException {
-		Serializable object;
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(receiveChunk());
 
-		ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-		object = (Serializable) objectInputStream.readObject();
-		objectInputStream.close();
+			Serializable object;
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(receiveChunk());
 
-		return object;
+			ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+			object = (Serializable) objectInputStream.readObject();
+			objectInputStream.close();
+
+			return object;
     }
 }

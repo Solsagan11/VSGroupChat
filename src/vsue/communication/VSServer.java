@@ -2,8 +2,11 @@ package vsue.communication;
 
 import vsue.Logger;
 import vsue.Utility;
+import vsue.rpc.VSInvocationHandler;
+import vsue.rpc.VSRemoteReference;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationHandler;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,6 +16,8 @@ import java.net.Socket;
 public class VSServer {
 
     private static final int PORT = 11111;
+    private static final String HOST = "127.0.0.1";
+    private static final int OBJID = 1;
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(PORT);
@@ -22,6 +27,8 @@ public class VSServer {
         while(true) {
             Socket socket = serverSocket.accept();
             System.out.println("Socket Accepted: " + socket.getInetAddress().getHostAddress()  + ":" + socket.getPort());
+            VSRemoteReference remoteReference = new VSRemoteReference(HOST, PORT, OBJID);
+            VSInvocationHandler invocationHandler = new VSInvocationHandler(remoteReference);
             VSConnection connection = new VSObjectConnection(socket);
             handleReceive(connection);
         }
